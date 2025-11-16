@@ -6,21 +6,218 @@
   HOW TO USE:
   1. Save this file as `index.html`.
   2. Create a folder named `images` next to the file and put your photos inside:
-     - images/photo1.jpg
-     - images/photo2.jpg
-     - images/photo3.jpg
-     - images/photo4.jpg
-     - images/photo5.jpg
-     (or update the <img> src attributes below to match your filenames)
+     - images/IMG_6316.JPEG
+     - images/IMG_6656.JPEG
+     - images/IMG_5554.JPEG
+     - images/IMG_6655.JPEG
+     - images/IMG_6384.JPEG
+     - images/IMG_6512.JPEG (surprise)
   3. Open index.html in a browser to preview locally.
   4. To share publicly: push to a GitHub repo and enable GitHub Pages (or use Netlify/Vercel).
 
   NOTES:
   - All animations are lightweight and run on modern browsers.
-  - You can remove the optional background audio by deleting the <audio> element.
+  - No audio is included in this version.
 -->
 
 <!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Two Years With You — Uwase ❤️</title>
+  <style>
+    :root{
+      --bg:#fffaf8;
+      --accent:#ff7aa2;
+      --muted:#6b6b6b;
+      --card:#ffffff;
+      --glass: rgba(255,255,255,0.6);
+      --maxw:900px;
+      --radius:16px;
+      font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:linear-gradient(180deg,var(--bg),#fff);color:#222; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale}
+    .wrap{max-width:var(--maxw);margin:28px auto;padding:24px}
+
+    /* Intro */
+    .hero{display:flex;flex-direction:column;gap:18px;align-items:center;padding:48px;border-radius:var(--radius);background:linear-gradient(135deg, rgba(255,122,162,0.06), rgba(255,231,207,0.06));box-shadow:0 6px 20px rgba(9,10,10,0.04)}
+    .title{font-size:28px;font-weight:700;color:#333}
+    .subtitle{color:var(--muted);font-size:15px}
+    .btn{background:var(--accent);color:white;padding:10px 18px;border-radius:12px;border:0;font-weight:600;cursor:pointer;box-shadow:0 6px 18px rgba(255,122,162,0.12)}
+    .btn:active{transform:translateY(1px)}
+
+    /* Timeline */
+    .timeline{margin-top:32px;padding:10px 6px}
+    .line{position:relative;margin:0 20px}
+    .line::before{content:"";position:absolute;left:18px;top:0;bottom:0;width:4px;background:linear-gradient(180deg,var(--accent),#ffdcdc);border-radius:4px;opacity:0.2}
+    .event{display:flex;gap:18px;align-items:flex-start;margin:26px 0;opacity:0;transform:translateY(12px);transition:all .6s cubic-bezier(.2,.9,.3,1)}
+    .event.reveal{opacity:1;transform:none}
+    .event .dot{width:36px;height:36px;border-radius:50%;background:var(--card);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 14px rgba(9,10,10,0.06)}
+    .event .dot svg{width:20px;height:20px;fill:var(--accent)}
+    .card{background:var(--card);padding:12px;border-radius:12px;box-shadow:0 8px 20px rgba(9,10,10,0.04);max-width:720px}
+    .card h4{margin:0 0 6px 0;font-size:16px}
+    .card p{margin:0;color:var(--muted);font-size:14px;line-height:1.45}
+
+    .photo{width:120px;height:80px;border-radius:10px;object-fit:cover;box-shadow:0 6px 18px rgba(9,10,10,0.06)}
+
+    /* Letter */
+    .letterWrap{margin-top:44px;padding:28px;border-radius:18px;background:linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,250,250,0.95));box-shadow:0 12px 36px rgba(9,10,10,0.06);text-align:left}
+    .letter{max-width:820px;margin:0 auto}
+    .letter .typed{font-family: 'Times New Roman', serif;font-size:19px;color:#222;line-height:1.6;min-height:150px}
+    .finalLine{display:block;margin-top:18px;font-weight:700;color:var(--accent);font-size:18px;opacity:0;transform:translateY(6px);transition:all .5s ease}
+    .finalLine.show{opacity:1;transform:none}
+
+    /* surprise fade */
+    @keyframes softFade { from {opacity:0; transform: translateY(8px);} to {opacity:1; transform: translateY(0);} }
+    #surpriseImg{width:240px;border-radius:12px;opacity:0;animation:softFade 900ms forwards 350ms}
+
+    /* hearts animation */
+    .hearts{position:fixed;right:18px;bottom:18px;pointer-events:none}
+    .heart{width:12px;height:12px;background:var(--accent);display:inline-block;margin:6px;border-radius:3px;filter:blur(.2px);opacity:0.9;transform:rotate(45deg)}
+    .heart::before,.heart::after{content:"";position:absolute;width:12px;height:12px;background:var(--accent);border-radius:50%}
+
+    /* responsive */
+    @media (max-width:720px){.photo{width:96px;height:64px}.title{font-size:22px}}
+
+    /* small helpers */
+    .muted{color:var(--muted);font-size:13px}
+    .center{display:flex;justify-content:center}
+    .small{font-size:13px;color:var(--muted)}
+    a.link{color:var(--accent);text-decoration:none}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="hero">
+      <div class="title">Two Years With You, Uwase ❤️</div>
+      <div class="subtitle">A small journey through the moments that made us… us.</div>
+      <div style="display:flex;gap:12px;align-items:center">
+        <button class="btn" id="startBtn">Start Our Story</button>
+      </div>
+      <div class="small">Tip: Open on a laptop or phone — best experienced in full-screen.</div>
+    </div>
+
+    <div class="timeline" id="timeline">
+
+      <!-- Event 1 -->
+      <div class="line">
+        <div class="event" data-delay="0">
+          <div class="dot" aria-hidden>
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 21s-7-4.35-9.5-7.05C-1.2 9.8 3 4 8.5 4c2.3 0 3.9 1.2 3.9 1.2S14.5 4 16.9 4C22.4 4 24.7 9.8 21.5 13.95 19 17 12 21 12 21z"/></svg>
+          </div>
+          <div class="card">
+            <h4>How We Met</h4>
+            <p><em>When our story began</em><br>I had just come from training, and I kept passing by where you worked… I didn’t know I was walking into the beginning of everything.</p>
+          </div>
+        </div>
+
+        <!-- Event 2 -->
+        <div class="event" data-delay="120">
+          <img class="photo" src="images/IMG_6316.JPEG" alt="Breakfast with Uwase">
+          <div class="card">
+            <h4>Our Home Breakfasts</h4>
+            <p><em>Those quiet mornings</em><br>Making and sharing breakfast with you became one of my favorite parts of being alive. Simple moments, but full of love.</p>
+          </div>
+        </div>
+
+        <!-- Event 3 -->
+        <div class="event" data-delay="240">
+          <div class="dot" aria-hidden>
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 21s-7-4.35-9.5-7.05C-1.2 9.8 3 4 8.5 4c2.3 0 3.9 1.2 3.9 1.2S14.5 4 16.9 4C22.4 4 24.7 9.8 21.5 13.95 19 17 12 21 12 21z"/></svg>
+          </div>
+          <div class="card">
+            <h4>Your Photo Book</h4>
+            <p><em>A piece of us I carried to Zambia</em><br>When I left, you made me that photo book… It reminded me every day that distance has nothing on us.</p>
+          </div>
+          <img class="photo" src="images/IMG_6656.JPEG" alt="Photo book">
+        </div>
+
+        <!-- Event 4 -->
+        <div class="event" data-delay="360">
+          <img class="photo" src="images/IMG_5554.JPEG" alt="Praying together">
+          <div class="card">
+            <h4>The Way You Pray For Me</h4>
+            <p><em>Love that covers and protects</em><br>Your prayers have held me in seasons I didn’t even talk about. It’s one of the most beautiful things about you.</p>
+          </div>
+        </div>
+
+        <!-- Event 5 -->
+        <div class="event" data-delay="480">
+          <div class="dot">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 21s-7-4.35-9.5-7.05C-1.2 9.8 3 4 8.5 4c2.3 0 3.9 1.2 3.9 1.2S14.5 4 16.9 4C22.4 4 24.7 9.8 21.5 13.95 19 17 12 21 12 21z"/></svg>
+          </div>
+          <div class="card">
+            <h4>The Encouragement You Gave Me</h4>
+            <p><em>When I was still looking</em><br>You stayed close. You encouraged me. You believed in me before anything was clear. I’ll never forget that.</p>
+          </div>
+          <img class="photo" src="images/IMG_6655.JPEG" alt="Encouraging message">
+        </div>
+
+        <!-- Event 6 -->
+        <div class="event" data-delay="600">
+          <img class="photo" src="images/IMG_6384.JPEG" alt="Ice cream date">
+          <div class="card">
+            <h4>Our Ice Cream Dates</h4>
+            <p><em>Sweet moments I miss</em><br>I miss those little ice cream dates… The laughs, the hand-holding, the peace of just being next to you.</p>
+          </div>
+        </div>
+
+        <!-- Event 7 (inside joke) -->
+        <div class="event" data-delay="720">
+          <div class="dot">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 21s-7-4.35-9.5-7.05C-1.2 9.8 3 4 8.5 4c2.3 0 3.9 1.2 3.9 1.2S14.5 4 16.9 4C22.4 4 24.7 9.8 21.5 13.95 19 17 12 21 12 21z"/></svg>
+          </div>
+          <div class="card">
+            <h4>Our Joke</h4>
+            <p><em>“Babe kumbabaza biragushimisha”</em><br>It still cracks us up every time — a small reminder that joy follows us everywhere.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Letter Section -->
+      <div class="letterWrap" id="letter">
+        <div class="letter">
+          <div style="text-align:center;margin-bottom:10px;"><strong style="font-size:18px">Dear Uwase,</strong></div>
+          <div class="typed" id="typed"></div>
+          <div class="finalLine" id="finalLine">Ni wowe wanjye. Always.</div>
+          <div style="text-align:center;margin-top:18px"><img id="surpriseImg" src="images/IMG_6512.JPEG" alt="Surprise"></div>
+        </div>
+      </div>
+
+      <div style="height:48px" class="center muted">Made with ❤️ — Happy 2 years</div>
+
+    </div>
+
+  </div>
+
+  <!-- hearts container (subtle animation) -->
+  <div class="hearts" aria-hidden id="hearts"></div>
+
+  <script>
+    // Smooth scroll from Start button
+    document.getElementById('startBtn').addEventListener('click', ()=>{
+      document.getElementById('timeline').scrollIntoView({behavior:'smooth'});
+    });
+
+    // Reveal timeline items on scroll
+    const events = document.querySelectorAll('.event');
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          entry.target.classList.add('reveal');
+        }
+      })
+    },{threshold:0.18});
+    events.forEach(ev=>io.observe(ev));
+
+    // Typewriter effect for the letter
+    const message = `From the first day we met, something about you stood out — your softness, your kindness, your gentle way of seeing the world.
+
+Two years later, I still feel that same peace every time I'm around you.
+
 I think about everything we've shared…
 Our breakfasts at home.
 Your photo book when I left for Zambia.
@@ -30,68 +227,62 @@ Our ice cream dates that I wish I could relive every weekend.
 Our inside jokes that always bring laughter back into the room.
 All of it forms a story I'm grateful for — a story I want to keep writing with you.
 
-
 What I love most about you is your heart — the way you care, the way you pray, the way your mind always looks for something better, something creative, something new.
 You inspire me without even trying.
-
 
 Thank you for loving me the way you do.
 Thank you for staying.
 Thank you for being you.`;
 
+    function typeText(el, text, speed=22, callback){
+      el.textContent='';
+      let i=0;
+      function step(){
+        if(i<text.length){
+          const ch = text[i++];
+          // fixed newline check to compare against the literal 
+ (newline) character
+          if(ch === '\n' || ch === '
+') el.appendChild(document.createElement('br'));
+          else el.appendChild(document.createTextNode(ch));
+          setTimeout(step, speed);
+        } else if(callback) callback();
+      }
+      step();
+    }
 
-function typeText(el, text, speed=22, callback){
-el.textContent='';
-let i=0;
-function step(){
-if(i<text.length){
-const ch = text[i++];
-// fixed newline check to compare against the literal
-(newline) character
-if(ch === '\n') el.appendChild(document.createElement('br'));
-else el.appendChild(document.createTextNode(ch));
-setTimeout(step, speed);
-} else if(callback) callback();
-}
-step();
-}
+    // When letter section is in view, start typing
+    const letterSection = document.getElementById('letter');
+    const typedEl = document.getElementById('typed');
+    const finalLine = document.getElementById('finalLine');
+    const letterObserver = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          // start typing once
+          typeText(typedEl, message, 20, ()=>{ finalLine.classList.add('show'); });
+          letterObserver.disconnect();
+        }
+      })
+    },{threshold:0.45});
+    letterObserver.observe(letterSection);
 
+    // Subtle hearts generator
+    const hearts = document.getElementById('hearts');
+    function createHeart(){
+      const h = document.createElement('div');
+      h.className='heart';
+      const size = Math.random()*10 + 8; h.style.width=size+'px'; h.style.height=size+'px'; h.style.position='absolute'; h.style.right=Math.random()*40+'px';
+      h.style.bottom='0px'; h.style.opacity=0.9; h.style.transform='translateY(0) rotate(45deg)';
+      hearts.appendChild(h);
+      // animate
+      const anim = h.animate([{transform:'translateY(0) rotate(45deg)', opacity:0.9},{transform:`translateY(-${80+Math.random()*140}px) rotate(45deg)`, opacity:0}], {duration:3000+Math.random()*2000, easing:'cubic-bezier(.2,.9,.3,1)'});
+      anim.onfinish = ()=>{ if(h.parentNode) h.parentNode.removeChild(h); }
+    }
+    setInterval(()=>{ if(Math.random()>0.55) createHeart(); },600);
 
-// When letter section is in view, start typing
-const letterSection = document.getElementById('letter');
-const typedEl = document.getElementById('typed');
-const finalLine = document.getElementById('finalLine');
-const letterObserver = new IntersectionObserver((entries)=>{
-entries.forEach(e=>{
-if(e.isIntersecting){
-// start typing once
-typeText(typedEl, message, 20, ()=>{ finalLine.classList.add('show'); });
-letterObserver.disconnect();
-}
-})
-},{threshold:0.45});
-letterObserver.observe(letterSection);
+    // Quick accessibility: allow keyboard to jump to letter by pressing 'L'
+    document.addEventListener('keydown', (e)=>{ if(e.key.toLowerCase()==='l') document.getElementById('letter').scrollIntoView({behavior:'smooth'}); });
 
-
-// Subtle hearts generator
-const hearts = document.getElementById('hearts');
-function createHeart(){
-const h = document.createElement('div');
-h.className='heart';
-const size = Math.random()*10 + 8; h.style.width=size+'px'; h.style.height=size+'px'; h.style.position='absolute'; h.style.right=Math.random()*40+'px';
-h.style.bottom='0px'; h.style.opacity=0.9; h.style.transform='translateY(0) rotate(45deg)';
-hearts.appendChild(h);
-// animate
-const anim = h.animate([{transform:'translateY(0) rotate(45deg)', opacity:0.9},{transform:`translateY(-${80+Math.random()*140}px) rotate(45deg)`, opacity:0}], {duration:3000+Math.random()*2000, easing:'cubic-bezier(.2,.9,.3,1)'});
-anim.onfinish = ()=>{ if(h.parentNode) h.parentNode.removeChild(h); }
-}
-setInterval(()=>{ if(Math.random()>0.55) createHeart(); },600);
-
-
-// Quick accessibility: allow keyboard to jump to letter by pressing 'L'
-document.addEventListener('keydown', (e)=>{ if(e.key.toLowerCase()==='l') document.getElementById('letter').scrollIntoView({behavior:'smooth'}); });
-
-
-</script>
+  </script>
 </body>
 </html>

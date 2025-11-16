@@ -1,0 +1,97 @@
+<!--
+  Our Story - Love Journey + Self-Typing Love Letter
+  Single-file webpage (HTML/CSS/JS). Personalize by replacing the images in the /images folder
+  and by editing the timeline text below if you want. Designed to be drop-in ready.
+
+  HOW TO USE:
+  1. Save this file as `index.html`.
+  2. Create a folder named `images` next to the file and put your photos inside:
+     - images/photo1.jpg
+     - images/photo2.jpg
+     - images/photo3.jpg
+     - images/photo4.jpg
+     - images/photo5.jpg
+     (or update the <img> src attributes below to match your filenames)
+  3. Open index.html in a browser to preview locally.
+  4. To share publicly: push to a GitHub repo and enable GitHub Pages (or use Netlify/Vercel).
+
+  NOTES:
+  - All animations are lightweight and run on modern browsers.
+  - You can remove the optional background audio by deleting the <audio> element.
+-->
+
+<!doctype html>
+I think about everything we've shared…
+Our breakfasts at home.
+Your photo book when I left for Zambia.
+Your prayers that carried me.
+Your words that encouraged me when life was uncertain.
+Our ice cream dates that I wish I could relive every weekend.
+Our inside jokes that always bring laughter back into the room.
+All of it forms a story I'm grateful for — a story I want to keep writing with you.
+
+
+What I love most about you is your heart — the way you care, the way you pray, the way your mind always looks for something better, something creative, something new.
+You inspire me without even trying.
+
+
+Thank you for loving me the way you do.
+Thank you for staying.
+Thank you for being you.`;
+
+
+function typeText(el, text, speed=22, callback){
+el.textContent='';
+let i=0;
+function step(){
+if(i<text.length){
+const ch = text[i++];
+// fixed newline check to compare against the literal
+(newline) character
+if(ch === '\n') el.appendChild(document.createElement('br'));
+else el.appendChild(document.createTextNode(ch));
+setTimeout(step, speed);
+} else if(callback) callback();
+}
+step();
+}
+
+
+// When letter section is in view, start typing
+const letterSection = document.getElementById('letter');
+const typedEl = document.getElementById('typed');
+const finalLine = document.getElementById('finalLine');
+const letterObserver = new IntersectionObserver((entries)=>{
+entries.forEach(e=>{
+if(e.isIntersecting){
+// start typing once
+typeText(typedEl, message, 20, ()=>{ finalLine.classList.add('show'); });
+letterObserver.disconnect();
+}
+})
+},{threshold:0.45});
+letterObserver.observe(letterSection);
+
+
+// Subtle hearts generator
+const hearts = document.getElementById('hearts');
+function createHeart(){
+const h = document.createElement('div');
+h.className='heart';
+const size = Math.random()*10 + 8; h.style.width=size+'px'; h.style.height=size+'px'; h.style.position='absolute'; h.style.right=Math.random()*40+'px';
+h.style.bottom='0px'; h.style.opacity=0.9; h.style.transform='translateY(0) rotate(45deg)';
+hearts.appendChild(h);
+// animate
+const anim = h.animate([{transform:'translateY(0) rotate(45deg)', opacity:0.9},{transform:`translateY(-${80+Math.random()*140}px) rotate(45deg)`, opacity:0}], {duration:3000+Math.random()*2000, easing:'cubic-bezier(.2,.9,.3,1)'});
+anim.onfinish = ()=>{ if(h.parentNode) h.parentNode.removeChild(h); }
+}
+setInterval(()=>{ if(Math.random()>0.55) createHeart(); },600);
+
+
+// Quick accessibility: allow keyboard to jump to letter by pressing 'L'
+document.addEventListener('keydown', (e)=>{ if(e.key.toLowerCase()==='l') document.getElementById('letter').scrollIntoView({behavior:'smooth'}); });
+
+
+</script>
+</body>
+</html>
